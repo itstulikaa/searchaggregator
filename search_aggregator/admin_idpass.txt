@@ -1,0 +1,5 @@
+django admin/superuser - 
+
+username - user1
+email_id - user1@gmail.com
+password - user1

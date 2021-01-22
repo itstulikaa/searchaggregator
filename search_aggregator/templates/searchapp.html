@@ -1,0 +1,63 @@
+<!DOCTYPE html> 
+<html>
+    <head>
+        <title></title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    </head>
+
+    <style type="text/css">
+        .container{
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <body style="background-color: rgb(153, 242, 245);">
+        
+        <form style="margin-top: 50px ;" method='POST'class="d-flex justify-content-center align-items-center" action="">
+            {% csrf_token %}
+            <input type="text" id="searchkey" name="searchkey" value="{{ searchkey }}"><br><br>
+        <input type="submit" id="submit" class = "btn btn-danger" name="">
+
+        </form><hr>
+
+        {% if prod_list %}
+            <h3 style="text-align: center;">Search Results</h3>
+            {% for prod in prod_list %}
+                <p><b>Product ID :</b> {{prod.0}}</p>
+                <p><b>Name :</b> {{prod.1}}</p>
+                <p><b>URL :</b> {{prod.2}}</p>
+                <p><b>Image URL :</b> {{prod.3}}</p>
+                <p><b>Offer Price : </b>{{prod.4}}</p>
+                <p><b>Actual Price : </b>{{prod.5}}</p>
+
+            {% endfor %}
+
+            <div class="d-flex justify-content-center align-items-center" style="text-align: center;">
+                {% if prod_list.has_other_pages %}
+                    <ul class="pagination" style="text-align: center;">
+                        {% if prod_list.has_previous %}
+                            <li><a href="?page={{ prod_list.previous_page_number }}">&laquo;</a></li>
+                        {% else %}
+                            <li class="disabled"><span>&laquo;</span></li>
+                        {% endif %}
+                        {% for i in prod_list.paginator.page_range %}
+                            {% if prod_list.number == i %}
+                                <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                            {% else %}
+                                <li><a href="?page={{ i }}">{{ i }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if prod_list.has_next %}
+                            <li><a href="?page={{ prod_list.next_page_number }}">&raquo;</a></li>
+                        {% else %}
+                            <li class="disabled"><span>&raquo;</span></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            
+            </div>
+        {% endif %}
+
+        
+    </body>
+</html>
